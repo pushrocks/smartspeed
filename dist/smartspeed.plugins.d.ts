@@ -1,1 +1,2 @@
-import 'typings-global';
+import * as smartdelay from 'smartdelay';
+export { smartdelay };

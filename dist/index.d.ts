@@ -7,7 +7,7 @@ export declare class Smartspeed {
     unitname: string;
     timeFrameInMilliSeconds: number;
     startTime: Date;
-    lastMeasurement: number;
+    private measurements;
     /**
      * the constructor
      * @param optionsArg
@@ -18,4 +18,5 @@ export declare class Smartspeed {
      */
     submitMeasurement(measurementNumber: number): void;
     startMeasurement(): void;
+    getSpeed(): number;
 }

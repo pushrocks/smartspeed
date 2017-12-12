@@ -7,17 +7,23 @@ export interface ISmartSpeedConstructorOptions {
   timeFrameInMilliSeconds: number
 }
 
+interface ISpeedMeasurement {
+  pointInTime: Date
+  measurement: number
+}
+
 export class Smartspeed {
   unitname: string
   timeFrameInMilliSeconds: number
   startTime: Date
-  lastMeasurement: number
+  private measurements: ISpeedMeasurement[] = []
   /**
    * the constructor
    * @param optionsArg
    */
   constructor(optionsArg: ISmartSpeedConstructorOptions) {
-    
+    this.unitname = optionsArg.unitname
+    this.timeFrameInMilliSeconds = optionsArg.timeFrameInMilliSeconds
   }
 
   /**
@@ -25,12 +31,27 @@ export class Smartspeed {
    */
   submitMeasurement (measurementNumber: number) {
     this.startMeasurement()
-    this.lastMeasurement = this.lastMeasurement + measurementNumber
+    this.measurements.push({
+      pointInTime: new Date(),
+      measurement: measurementNumber
+    })
+    plugins.smartdelay.delayFor(this.timeFrameInMilliSeconds)
+      .then(() => {
+        this.measurements.pop()
+      })
   }
 
-  startMeasurement() {
+  startMeasurement () {
     if (!this.startTime) {
       this.startTime = new Date()
     }
+  }
+
+  getSpeed () {
+    let addedMeasurement: number = 0
+    for (let measurement of this.measurements) {
+      addedMeasurement = addedMeasurement + measurement.measurement
+    }
+    return addedMeasurement
   }
 }
