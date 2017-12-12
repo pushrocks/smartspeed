@@ -1,6 +1,6 @@
 {
   "name": "smartspeed",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "measure speed the smart way",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
